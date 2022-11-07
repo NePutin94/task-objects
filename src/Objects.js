@@ -7,7 +7,17 @@
   и присвоить начальное значение 100000.
   Объект после манипуляций следует вернуть в качестве результата работы функции.
 */
+
 export function personUpdate(data) {
+    switch (data.gender) {
+        case 'female':
+            delete data.age;
+            break;
+        case 'male':
+            if (!data.hasOwnProperty('income')) data.income = 100000;
+            break;
+    }
+    return data;
 }
 
 /*
@@ -15,6 +25,13 @@ export function personUpdate(data) {
   Верните список названий этих полей в алфавитном порядке в виде массива строк.
 */
 export function objectFieldsList(obj1, obj2, obj3) {
+    let list = Object.getOwnPropertyNames(obj1)
+        .concat(Object.getOwnPropertyNames(obj2))
+        .concat(Object.getOwnPropertyNames(obj3))
+        .filter(function (item, pos, self) {
+            return self.indexOf(item) == pos;
+        });
+    return list.sort();
 }
 
 /*
@@ -23,4 +40,12 @@ export function objectFieldsList(obj1, obj2, obj3) {
   Количество клонов - count.
 */
 export function objectClone(obj, count) {
+    let array = [];
+    for (let i = 0; i < count; ++i) {
+        let objClone = obj;
+        let objId = {};
+        objId.id = i;
+        array.push({ ...objId, ...objClone });
+    }
+    return array;
 }
